@@ -1,5 +1,6 @@
 from typing import List, Dict, Union, Generator
-
+from string import ascii_lowercase
+from random import choices
 # We will work with such dicts
 ST = Dict[str, Union[str, int]]
 # And we will put this dicts in list
@@ -14,8 +15,8 @@ def task_1_fix_names_start_letter(data: DT) -> DT:
         fix_names_start_letters([{'name': 'Alex', 'age': 26}, {'name': 'denys', 'age': 89}])
         >>> [{'name': 'Alex', 'age': 26}, {'name': 'Denys', 'age': 89}]
     """
-    pass
 
+    return [{key: value.capitalize() if key == 'name' else value for key, value in item.items()} for item in data]
 
 def task_2_remove_dict_fields(data: DT, redundant_keys: List[str]) -> DT:
     """given_data
@@ -25,8 +26,9 @@ def task_2_remove_dict_fields(data: DT, redundant_keys: List[str]) -> DT:
        remove_dict_field([{'name': 'Alex', 'age': 26}, {'name': 'denys', 'age': 89}], 'age')
         >>> [{'name': 'Alex'}, {'name': 'denys'}]
     """
-    pass
-
+    for r_key in redundant_keys:
+        [x.pop(r_key) for x in data]
+    return (data)
 
 def task_3_find_item_via_value(data: DT, value) -> DT:
     """
@@ -35,21 +37,24 @@ def task_3_find_item_via_value(data: DT, value) -> DT:
         find_item_via_value([{'name': 'Alex', 'age': 26}, {'name': 'denys', 'age': 89}], 26)
         >>> [{'name': 'Alex', 'age': 26}]
     """
-    pass
+    data_searching = [x for x in data if x.get('name') == 'SuperMan']
+
+    return (data_searching)
+
 
 
 def task_4_min_value_integers(data: List[int]) -> int:
     """
     Find and return minimum value from list
     """
-    pass
+    return min(data, default=None)
 
 
 def task_5_min_value_strings(data: List[Union[str, int]]) -> str:
     """
     Find the longest string
     """
-    pass
+    return str(min(data, key=lambda item: len(str(item)))) if data else None
 
 
 def task_6_min_value_list_of_dicts(data: DT, key: str) -> ST:
@@ -57,23 +62,24 @@ def task_6_min_value_list_of_dicts(data: DT, key: str) -> ST:
     Find minimum value by given key
     Returns:
 
+
     """
-    pass
+    n = list(filter(lambda x: x.get(key), data))
+    return min(n, key=lambda x: x.get(key))
 
 
 def task_7_max_value_list_of_lists(data: List[List[int]]) -> int:
     """
     Find max value from list of lists
     """
-    pass
+    return max([max(x) for x in data if x])
 
 
 def task_8_sum_of_ints(data: List[int]) -> int:
     """
     Find sum of all items in given list
     """
-    pass
-
+    return sum(data)
 
 def task_9_sum_characters_positions(text: str) -> int:
     """
@@ -88,7 +94,8 @@ def task_9_sum_characters_positions(text: str) -> int:
         >>> 532
 
     """
-    pass
+    list_1 = [ord(x) for x in text]
+    return sum(list_1)
 
 
 def task_10_generator_of_simple_numbers() -> Generator[int, None, None]:
@@ -102,7 +109,20 @@ def task_10_generator_of_simple_numbers() -> Generator[int, None, None]:
         next(a)
         >>> 3
     """
-    pass
+
+    def checking(number):
+        for i in range(2, number):
+            if number % i == 0:
+                return False
+        return True
+
+    def generator():
+        n = 2
+        while n <= 200:
+            if checking(n):
+                yield n
+            n += 1
+    return generator()
 
 
 def task_11_create_list_of_random_characters() -> List[str]:
@@ -110,4 +130,6 @@ def task_11_create_list_of_random_characters() -> List[str]:
     Create list of 20 elements where each element is random letter from latin alphabet
 
     """
-    pass
+
+    return choices(ascii_lowercase, k=20)
+
